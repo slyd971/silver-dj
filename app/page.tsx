@@ -635,7 +635,7 @@ export default function Home() {
       lifestyle collaborations.
     </p>
   </div>
-</div>
+</div> 
 
     {/* TAGS */}
     <div className="mt-8 flex flex-wrap gap-2.5">
