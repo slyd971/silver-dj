@@ -240,12 +240,12 @@ export default function Home() {
       </div>
     </div>
 
-    <div className="min-w-0 rounded-[1.8rem] border border-white/10 bg-white/5 p-5 backdrop-blur-sm">
-  <div className="w-full text-center text-xl font-black uppercase leading-[1.05] text-[#D9252A] md:text-2xl">
+    <div className="rounded-[1.4rem] border border-white/10 bg-white/[0.015] p-5 backdrop-blur-sm">
+  <div className="text-xl font-black uppercase leading-[1.05] text-[#D9252A] md:text-2xl text-left">
     OPEN
     <br />
     FORMAT
-</div>
+  </div>
       <div className="mt-3 text-sm uppercase tracking-[0.22em] text-white/50">
         Signature sound
       </div>
