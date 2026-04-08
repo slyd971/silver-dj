@@ -1,10 +1,7 @@
-import { yoruboyPressKitConfig } from "@/data/artists/yoruboy";
 import { pressKitConfig, type PressKitConfig } from "@/data/config";
 import type { TemplateId, TemplateVariantId } from "@/data/templates";
 
-export type ArtistId = "slyd" | "yoruboy";
-
-export const defaultArtistId: ArtistId = "yoruboy";
+export type ArtistId = "slyd";
 
 export type PressKitEntry = {
   id: ArtistId;
@@ -20,13 +17,6 @@ const pressKitEntries: Record<ArtistId, PressKitEntry> = {
     label: "DJ SLY'D",
     config: pressKitConfig,
     defaultTheme: "red",
-    defaultVariant: "impact",
-  },
-  yoruboy: {
-    id: "yoruboy",
-    label: "Yoruboy Dj",
-    config: yoruboyPressKitConfig,
-    defaultTheme: "orange",
     defaultVariant: "impact",
   },
 };
@@ -47,23 +37,12 @@ const sectionHrefMap = {
 };
 
 export function getPressKitEntry(artist?: string): PressKitEntry {
-  if (!artist) return pressKitEntries[defaultArtistId];
-
-  const normalizedArtist = artist.toLowerCase();
-  return (
-    pressKitEntries[normalizedArtist as ArtistId] ??
-    pressKitEntries[defaultArtistId]
-  );
+  if (!artist) return pressKitEntries.slyd;
+  return pressKitEntries.slyd;
 }
 
 export function getArtistGalleryHref(artistId: ArtistId): string {
-  return artistId === defaultArtistId
-    ? "/gallery"
-    : `/gallery?artist=${artistId}`;
-}
-
-export function getArtistHomeHref(artistId: ArtistId): string {
-  return artistId === defaultArtistId ? "/" : `/?artist=${artistId}`;
+  return "/gallery";
 }
 
 export function hasGalleryContent(config: PressKitConfig): boolean {
@@ -103,8 +82,6 @@ export function getResolvedNavigation(
 
   return {
     ...config.navigation,
-    items: config.navigation.items.filter((item) =>
-      visibleSections.has(item.href)
-    ),
+    items: config.navigation.items.filter((item) => visibleSections.has(item.href)),
   };
 }

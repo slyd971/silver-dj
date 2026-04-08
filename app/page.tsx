@@ -12,7 +12,6 @@ import { VideoSection } from "@/components/press-kit/VideoSection";
 import { getFontPreset, getFontStyle } from "@/data/font-presets";
 import {
   getArtistGalleryHref,
-  getArtistHomeHref,
   getPressKitEntry,
   getResolvedNavigation,
   hasBrandsContent,
@@ -47,7 +46,8 @@ export default async function Home({ searchParams }: HomeProps) {
   const showLocalSwitchers = await isLocalRequest();
   const navigation = getResolvedNavigation(pressKitConfig);
   const galleryHref = getArtistGalleryHref(pressKitEntry.id);
-  const homeHref = getArtistHomeHref(pressKitEntry.id);
+  const homeHref =
+    pressKitEntry.id === "slyd" ? "/" : `/?artist=${pressKitEntry.id}`;
 
   return (
     <main
