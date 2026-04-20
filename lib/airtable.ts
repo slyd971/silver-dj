@@ -1,6 +1,5 @@
 import type {
   ContactMethod,
-  CtaLink,
   GalleryImage,
   PressKitConfig,
   VideoItem,
@@ -559,8 +558,6 @@ function applySectionOverrides(
         getString(record.fields, "title") ?? pressKit.spotify.title;
       pressKit.spotify.description =
         getString(record.fields, "description") ?? pressKit.spotify.description;
-      pressKit.spotify.badgeLabel =
-        getString(record.fields, "badgeLabel") ?? pressKit.spotify.badgeLabel;
     }
 
     if (sectionKey === "contact") {
@@ -579,12 +576,6 @@ function applySectionOverrides(
         getString(record.fields, "title") ?? pressKit.gallery.title;
       pressKit.gallery.description =
         getString(record.fields, "description") ?? pressKit.gallery.description;
-      pressKit.gallery.homepageTitle =
-        getString(record.fields, "homepageTitle") ??
-        pressKit.gallery.homepageTitle;
-      pressKit.gallery.homepageCtaLabel =
-        getString(record.fields, "homepageCtaLabel") ??
-        pressKit.gallery.homepageCtaLabel;
     }
   }
 }
