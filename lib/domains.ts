@@ -15,6 +15,24 @@ export function isLocalHostname(hostname?: string | null) {
   return localHostnames.has(normalizeHostname(hostname));
 }
 
+export function matchesHostname(
+  hostname?: string | null,
+  configuredHostname?: string | null
+) {
+  const normalizedHostname = normalizeHostname(hostname);
+  const normalizedConfiguredHostname = normalizeHostname(configuredHostname);
+
+  if (!normalizedHostname || !normalizedConfiguredHostname) {
+    return false;
+  }
+
+  return (
+    normalizedHostname === normalizedConfiguredHostname ||
+    normalizedHostname === `www.${normalizedConfiguredHostname}` ||
+    normalizedHostname.endsWith(`.${normalizedConfiguredHostname}`)
+  );
+}
+
 export function getPrimaryHostname(client: ClientConfig) {
   return client.domain ?? client.vercelSubdomain;
 }

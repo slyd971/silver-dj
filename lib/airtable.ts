@@ -23,6 +23,7 @@ import {
   type TemplateId,
   type TemplateVariantId,
 } from "@/data/templates";
+import { matchesHostname } from "@/lib/domains";
 
 type AirtableRecord = {
   id: string;
@@ -979,12 +980,10 @@ export async function getAirtableClientByHost(hostname?: string | null) {
 
   try {
     const clientIndex = await getAirtableClientIndex();
-    const normalizedHostname = hostname.toLowerCase();
     const match = clientIndex.find((entry) => {
       return (
-        entry.domain?.toLowerCase() === normalizedHostname ||
-        `www.${entry.domain?.toLowerCase()}` === normalizedHostname ||
-        entry.vercelSubdomain?.toLowerCase() === normalizedHostname
+        matchesHostname(hostname, entry.domain) ||
+        matchesHostname(hostname, entry.vercelSubdomain)
       );
     });
 

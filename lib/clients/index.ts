@@ -1,6 +1,6 @@
 import { getClientBySlug, getClients } from "@/data/clients";
 import type { ClientConfig } from "@/data/clients/types";
-import { isLocalHostname, normalizeHostname } from "@/lib/domains";
+import { isLocalHostname, matchesHostname, normalizeHostname } from "@/lib/domains";
 
 export { getClientBySlug, getClients };
 export type { ClientConfig };
@@ -26,11 +26,7 @@ export function getClientByHost(hostname?: string | null) {
     const domainHost = client.domain ? normalizeHostname(client.domain) : "";
     const vercelHost = normalizeHostname(client.vercelSubdomain);
 
-    if (
-      normalizedHost === domainHost ||
-      normalizedHost === `www.${domainHost}` ||
-      normalizedHost === vercelHost
-    ) {
+    if (matchesHostname(normalizedHost, domainHost) || matchesHostname(normalizedHost, vercelHost)) {
       return client;
     }
   }
