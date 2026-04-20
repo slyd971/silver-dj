@@ -1,43 +1,30 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { pressKitConfig } from "@/data/config";
+import { getDefaultClient } from "@/lib/clients";
+import { getRequiredRequestClient } from "@/lib/clients/server";
+import { buildClientMetadata, buildSiteJsonLd } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  metadataBase: new URL("https://djslyd-presskit.vercel.app"),
-  title: pressKitConfig.metadata.title,
-  description: pressKitConfig.metadata.description,
-  openGraph: {
-    title: pressKitConfig.metadata.title,
-    description: pressKitConfig.metadata.description,
-    url: "https://djslyd-presskit.vercel.app",
-    siteName: "DJ SLY'D",
-    locale: "fr_FR",
-    type: "website",
-    images: [
-      {
-        url: "/press-kit/og-share.jpg",
-        width: 1200,
-        height: 630,
-        alt: "DJ SLY'D press kit preview",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: pressKitConfig.metadata.title,
-    description: pressKitConfig.metadata.description,
-    images: ["/press-kit/og-share.jpg"],
-  },
-};
+export function generateMetadata(): Metadata {
+  return buildClientMetadata(getDefaultClient());
+}
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return <RootLayoutContent>{children}</RootLayoutContent>;
+}
+
+async function RootLayoutContent({ children }: { children: React.ReactNode }) {
+  const client = await getRequiredRequestClient();
+  const siteJsonLd = buildSiteJsonLd(client);
+
   return (
     <html lang="fr">
-      <body>{children}</body>
+      <body>
+        {children}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(siteJsonLd) }}
+        />
+      </body>
     </html>
   );
 }

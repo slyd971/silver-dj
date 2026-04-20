@@ -1,6 +1,9 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
+import { headers } from "next/headers";
 import { ImageResponse } from "next/og";
+import { getClientByHost, getDefaultClient } from "@/lib/clients";
+import { templateThemes } from "@/data/templates";
 
 export const runtime = "nodejs";
 export const contentType = "image/png";
@@ -8,21 +11,32 @@ export const size = {
   width: 1200,
   height: 630,
 };
-export const alt = "DJ SLY'D press kit preview";
 
-async function getHeroDataUrl() {
-  const heroPath = path.join(
-    process.cwd(),
-    "public/press-kit/2025-12-29-22-31-08-761.jpg"
-  );
+export const alt = "Press kit preview";
+
+async function getHeroDataUrl(heroImage: string) {
+  const heroPath = path.join(process.cwd(), "public", heroImage.replace(/^\//, ""));
   const heroBuffer = await readFile(heroPath);
   const heroBase64 = heroBuffer.toString("base64");
+  const extension = path.extname(heroPath).toLowerCase();
+  const mimeType =
+    extension === ".png"
+      ? "image/png"
+      : extension === ".webp"
+        ? "image/webp"
+        : "image/jpeg";
 
-  return `data:image/jpeg;base64,${heroBase64}`;
+  return `data:${mimeType};base64,${heroBase64}`;
 }
 
 export default async function OpenGraphImage() {
-  const heroDataUrl = await getHeroDataUrl();
+  const requestHeaders = await headers();
+  const hostname =
+    requestHeaders.get("x-forwarded-host") ?? requestHeaders.get("host");
+  const client = getClientByHost(hostname) ?? getDefaultClient();
+  const heroDataUrl = await getHeroDataUrl(client.heroImage);
+  const theme = templateThemes[client.defaultTheme];
+  const primaryCta = client.pressKit.navigation.cta.label;
 
   return new ImageResponse(
     (
@@ -33,9 +47,8 @@ export default async function OpenGraphImage() {
           display: "flex",
           position: "relative",
           overflow: "hidden",
-          background:
-            "linear-gradient(135deg, #120709 0%, #24090c 45%, #451015 100%)",
-          color: "#fff5f5",
+          background: `linear-gradient(135deg, ${theme.background} 0%, #140d0b 40%, #2f1b12 100%)`,
+          color: theme.text,
           fontFamily:
             "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
         }}
@@ -46,7 +59,7 @@ export default async function OpenGraphImage() {
             inset: 0,
             display: "flex",
             background:
-              "radial-gradient(circle at 14% 16%, rgba(255,114,114,0.18), transparent 25%), radial-gradient(circle at 84% 18%, rgba(255,255,255,0.10), transparent 22%), radial-gradient(circle at 74% 84%, rgba(217,37,42,0.22), transparent 28%)",
+              `radial-gradient(circle at 14% 16%, rgb(${theme.accentRgb} / 0.22), transparent 25%), radial-gradient(circle at 84% 18%, rgba(255,255,255,0.10), transparent 22%), radial-gradient(circle at 74% 84%, rgb(${theme.accentRgb} / 0.20), transparent 28%)`,
           }}
         />
 
@@ -75,10 +88,10 @@ export default async function OpenGraphImage() {
           <div
             style={{
               position: "absolute",
-              inset: 0,
-              display: "flex",
-              background:
-                "linear-gradient(90deg, rgba(18,7,9,0.96) 0%, rgba(18,7,9,0.42) 35%, rgba(18,7,9,0.18) 100%)",
+            inset: 0,
+            display: "flex",
+            background:
+              `linear-gradient(90deg, ${theme.background}F5 0%, ${theme.background}99 35%, ${theme.background}33 100%)`,
             }}
           />
         </div>
@@ -99,7 +112,7 @@ export default async function OpenGraphImage() {
               display: "flex",
               alignItems: "center",
               gap: 14,
-              color: "#ffb4b4",
+              color: theme.accentSoft,
               fontSize: 22,
               letterSpacing: 3,
               fontWeight: 700,
@@ -111,11 +124,11 @@ export default async function OpenGraphImage() {
                 width: 11,
                 height: 11,
                 borderRadius: 9999,
-                background: "#d9252a",
+                background: theme.accent,
                 display: "flex",
               }}
             />
-            Paris • International Energy
+            {client.city} • {client.country}
           </div>
 
           <div
@@ -136,20 +149,19 @@ export default async function OpenGraphImage() {
                 fontWeight: 900,
               }}
             >
-              <span>DJ SLY'D</span>
-              <span style={{ color: "#ff6b72" }}>PRESS KIT</span>
+              <span>{client.name.toUpperCase()}</span>
+              <span style={{ color: theme.accentSoft }}>PRESS KIT</span>
             </div>
 
             <div
               style={{
                 fontSize: 30,
                 lineHeight: 1.34,
-                color: "rgba(255,245,245,0.92)",
+                color: "rgba(255,255,255,0.92)",
                 maxWidth: 660,
               }}
             >
-              Open format DJ and producer blending Hip-Hop, Afro, RnB and
-              club-ready energy for nightlife, brands and bookings.
+              {client.description}
             </div>
           </div>
 
@@ -167,25 +179,25 @@ export default async function OpenGraphImage() {
                 justifyContent: "center",
                 padding: "16px 24px",
                 borderRadius: 9999,
-                background: "#d9252a",
-                color: "#fff5f5",
+                background: theme.accent,
+                color: theme.background,
                 fontSize: 21,
                 fontWeight: 800,
                 textTransform: "uppercase",
                 letterSpacing: 1.3,
               }}
             >
-              Book SLY'D
+              {primaryCta}
             </div>
 
             <div
               style={{
                 display: "flex",
                 fontSize: 21,
-                color: "rgba(255,245,245,0.74)",
+                color: "rgba(255,255,255,0.74)",
               }}
             >
-              djslyd-presskit.vercel.app
+              {client.domain ?? client.vercelSubdomain}
             </div>
           </div>
         </div>

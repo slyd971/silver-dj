@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { AboutSection } from "@/components/press-kit/AboutSection";
 import { BrandsSection } from "@/components/press-kit/BrandsSection";
 import { ClubsSection } from "@/components/press-kit/ClubsSection";
@@ -11,8 +12,9 @@ import { SpotifySection } from "@/components/press-kit/SpotifySection";
 import { VideoSection } from "@/components/press-kit/VideoSection";
 import { getFontPreset, getFontStyle } from "@/data/font-presets";
 import {
+  createPressKitEntry,
   getArtistGalleryHref,
-  getPressKitEntry,
+  getArtistHomeHref,
   getResolvedNavigation,
   hasBrandsContent,
   hasGalleryContent,
@@ -21,10 +23,16 @@ import {
   hasVideoContent,
 } from "@/data/press-kits";
 import { getTemplateStyle, getTemplateTheme, getTemplateVariant } from "@/data/templates";
+import {
+  getRequestedClientSlug,
+  getRequiredRequestClient,
+} from "@/lib/clients/server";
 import { isLocalRequest } from "@/lib/is-local-request";
+import { buildClientMetadata } from "@/lib/seo";
 
 type HomeProps = {
   searchParams?: Promise<{
+    client?: string;
     artist?: string;
     template?: string;
     variant?: string;
@@ -32,9 +40,23 @@ type HomeProps = {
   }>;
 };
 
+export async function generateMetadata({
+  searchParams,
+}: HomeProps): Promise<Metadata> {
+  const resolvedSearchParams = searchParams ? await searchParams : undefined;
+  const client = await getRequiredRequestClient(
+    getRequestedClientSlug(resolvedSearchParams)
+  );
+
+  return buildClientMetadata(client);
+}
+
 export default async function Home({ searchParams }: HomeProps) {
   const resolvedSearchParams = searchParams ? await searchParams : undefined;
-  const pressKitEntry = getPressKitEntry(resolvedSearchParams?.artist);
+  const client = await getRequiredRequestClient(
+    getRequestedClientSlug(resolvedSearchParams)
+  );
+  const pressKitEntry = createPressKitEntry(client);
   const pressKitConfig = pressKitEntry.config;
   const theme = getTemplateTheme(
     resolvedSearchParams?.template ?? pressKitEntry.defaultTheme
@@ -46,8 +68,7 @@ export default async function Home({ searchParams }: HomeProps) {
   const showLocalSwitchers = await isLocalRequest();
   const navigation = getResolvedNavigation(pressKitConfig);
   const galleryHref = getArtistGalleryHref(pressKitEntry.id);
-  const homeHref =
-    pressKitEntry.id === "slyd" ? "/" : `/?artist=${pressKitEntry.id}`;
+  const homeHref = getArtistHomeHref(pressKitEntry.id);
 
   return (
     <main
@@ -56,7 +77,7 @@ export default async function Home({ searchParams }: HomeProps) {
     >
       {showLocalSwitchers && (
         <DevControlPanel
-          activeArtistId={pressKitEntry.id}
+          activeClientId={pressKitEntry.id}
           activeThemeId={theme.id}
           activeVariantId={variant.id}
           activeFontPresetId={fontPreset.id}

@@ -8,3 +8,4 @@ node_modules
 .pycache
 *.pyc
 tsconfig.tsbuildinfo
+public/**/*.mov

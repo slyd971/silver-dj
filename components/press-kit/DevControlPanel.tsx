@@ -20,7 +20,7 @@ import {
 } from "@/data/templates";
 
 type DevControlPanelProps = {
-  activeArtistId: ArtistId;
+  activeClientId: ArtistId;
   activeThemeId: TemplateId;
   activeFontPresetId: FontPresetId;
   activeVariantId?: TemplateVariantId;
@@ -69,7 +69,7 @@ function SectionButton({
 }
 
 export function DevControlPanel({
-  activeArtistId,
+  activeClientId,
   activeThemeId,
   activeFontPresetId,
   activeVariantId,
@@ -162,8 +162,8 @@ export function DevControlPanel({
                     <SectionButton
                       key={artist.id}
                       label={artist.label}
-                      isActive={artist.id === activeArtistId}
-                      onClick={() => updateParam("artist", artist.id)}
+                      isActive={artist.id === activeClientId}
+                      onClick={() => updateParam("client", artist.id)}
                     />
                   ))}
                 </div>

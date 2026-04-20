@@ -1,26 +1,60 @@
+import type { Metadata } from "next";
 import { GalleryClient } from "@/components/gallery/GalleryClient";
 import { DevControlPanel } from "@/components/press-kit/DevControlPanel";
 import { Header } from "@/components/press-kit/Header";
 import { getFontPreset, getFontStyle } from "@/data/font-presets";
 import {
-  getPressKitEntry,
+  createPressKitEntry,
+  getArtistHomeHref,
   getResolvedNavigation,
   hasGalleryContent,
 } from "@/data/press-kits";
 import { getTemplateStyle, getTemplateTheme } from "@/data/templates";
+import {
+  getRequestedClientSlug,
+  getRequiredRequestClient,
+} from "@/lib/clients/server";
 import { isLocalRequest } from "@/lib/is-local-request";
+import { buildClientMetadata, buildGalleryJsonLd } from "@/lib/seo";
 
 type GalleryPageProps = {
   searchParams?: Promise<{
+    client?: string;
     artist?: string;
     template?: string;
     font?: string;
   }>;
 };
 
+export async function generateMetadata({
+  searchParams,
+}: GalleryPageProps): Promise<Metadata> {
+  const resolvedSearchParams = searchParams ? await searchParams : undefined;
+  const client = await getRequiredRequestClient(
+    getRequestedClientSlug(resolvedSearchParams)
+  );
+
+  return buildClientMetadata(client, "/gallery", {
+    title: `${client.name} Gallery | Press Photos & Media Assets`,
+    description: client.pressKit.gallery.description,
+    image: client.gallery[0]?.src ?? client.seo.ogImage,
+    keywords: [
+      `${client.slug} gallery`,
+      "DJ press photos",
+      "artist media kit",
+      "press visuals",
+      `${client.city} DJ gallery`,
+    ],
+    imageAlt: client.gallery[0]?.alt ?? `${client.name} gallery visual`,
+  });
+}
+
 export default async function GalleryPage({ searchParams }: GalleryPageProps) {
   const resolvedSearchParams = searchParams ? await searchParams : undefined;
-  const pressKitEntry = getPressKitEntry(resolvedSearchParams?.artist);
+  const client = await getRequiredRequestClient(
+    getRequestedClientSlug(resolvedSearchParams)
+  );
+  const pressKitEntry = createPressKitEntry(client);
   const pressKitConfig = pressKitEntry.config;
   const theme = getTemplateTheme(
     resolvedSearchParams?.template ?? pressKitEntry.defaultTheme
@@ -29,8 +63,8 @@ export default async function GalleryPage({ searchParams }: GalleryPageProps) {
   const showLocalSwitchers = await isLocalRequest();
   const hasGallery = hasGalleryContent(pressKitConfig);
   const navigation = getResolvedNavigation(pressKitConfig);
-  const homeHref =
-    pressKitEntry.id === "slyd" ? "/" : `/?artist=${pressKitEntry.id}`;
+  const homeHref = getArtistHomeHref(pressKitEntry.id);
+  const galleryJsonLd = buildGalleryJsonLd(client);
 
   return (
     <main
@@ -45,7 +79,7 @@ export default async function GalleryPage({ searchParams }: GalleryPageProps) {
       />
       {showLocalSwitchers && (
         <DevControlPanel
-          activeArtistId={pressKitEntry.id}
+          activeClientId={pressKitEntry.id}
           activeThemeId={theme.id}
           activeFontPresetId={fontPreset.id}
         />
@@ -78,6 +112,10 @@ export default async function GalleryPage({ searchParams }: GalleryPageProps) {
           />
         ) : null}
       </div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(galleryJsonLd) }}
+      />
     </main>
   );
 }

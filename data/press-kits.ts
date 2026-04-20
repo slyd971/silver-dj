@@ -1,7 +1,10 @@
-import { pressKitConfig, type PressKitConfig } from "@/data/config";
+import { getClients, getClientBySlug } from "@/data/clients";
+import type { ClientConfig } from "@/data/clients/types";
+import type { ClientSlug } from "@/data/clients";
+import type { PressKitConfig } from "@/data/config";
 import type { TemplateId, TemplateVariantId } from "@/data/templates";
 
-export type ArtistId = "slyd";
+export type ArtistId = ClientSlug;
 
 export type PressKitEntry = {
   id: ArtistId;
@@ -11,18 +14,21 @@ export type PressKitEntry = {
   defaultVariant: TemplateVariantId;
 };
 
-const pressKitEntries: Record<ArtistId, PressKitEntry> = {
-  slyd: {
-    id: "slyd",
-    label: "DJ SLY'D",
-    config: pressKitConfig,
-    defaultTheme: "red",
-    defaultVariant: "impact",
-  },
-};
+const pressKitEntries = new Map<ArtistId, PressKitEntry>(
+  getClients().map((client) => [
+    client.slug as ArtistId,
+    {
+      id: client.slug as ArtistId,
+      label: client.name,
+      config: client.pressKit,
+      defaultTheme: client.defaultTheme,
+      defaultVariant: client.defaultVariant,
+    },
+  ])
+);
 
 export function getPressKitEntries(): PressKitEntry[] {
-  return Object.values(pressKitEntries);
+  return [...pressKitEntries.values()];
 }
 
 const sectionHrefMap = {
@@ -37,12 +43,32 @@ const sectionHrefMap = {
 };
 
 export function getPressKitEntry(artist?: string): PressKitEntry {
-  if (!artist) return pressKitEntries.slyd;
-  return pressKitEntries.slyd;
+  const resolvedClient = getClientBySlug(artist ?? null) ?? getClients()[0];
+  const entry = pressKitEntries.get(resolvedClient.slug as ArtistId);
+
+  if (!entry) {
+    throw new Error(`Client "${resolvedClient.slug}" is missing from press kit entries.`);
+  }
+
+  return entry;
+}
+
+export function createPressKitEntry(client: ClientConfig): PressKitEntry {
+  return {
+    id: client.slug as ArtistId,
+    label: client.name,
+    config: client.pressKit,
+    defaultTheme: client.defaultTheme,
+    defaultVariant: client.defaultVariant,
+  };
 }
 
 export function getArtistGalleryHref(artistId: ArtistId): string {
-  return "/gallery";
+  return artistId === getClients()[0].slug ? "/gallery" : `/gallery?client=${artistId}`;
+}
+
+export function getArtistHomeHref(artistId: ArtistId): string {
+  return artistId === getClients()[0].slug ? "/" : `/?client=${artistId}`;
 }
 
 export function hasGalleryContent(config: PressKitConfig): boolean {
