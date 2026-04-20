@@ -534,26 +534,6 @@ function applySectionOverrides(
       continue;
     }
 
-    if (sectionKey === "about") {
-      pressKit.about.eyebrow =
-        getString(record.fields, "eyebrow") ?? pressKit.about.eyebrow;
-      pressKit.about.title =
-        getString(record.fields, "title") ?? pressKit.about.title;
-      pressKit.about.signatureLabel =
-        getString(record.fields, "signatureLabel") ??
-        pressKit.about.signatureLabel;
-      pressKit.about.signatureQuote =
-        getString(record.fields, "signatureQuote") ??
-        pressKit.about.signatureQuote;
-      pressKit.about.supportingText =
-        getString(record.fields, "supportingText") ??
-        pressKit.about.supportingText;
-      pressKit.about.paragraphs =
-        getStringArray(record.fields, "paragraphs") ?? pressKit.about.paragraphs;
-      pressKit.about.tags =
-        getStringArray(record.fields, "tags") ?? pressKit.about.tags;
-    }
-
     if (sectionKey === "clubs") {
       pressKit.clubs.eyebrow =
         getString(record.fields, "eyebrow") ?? pressKit.clubs.eyebrow;
@@ -561,28 +541,6 @@ function applySectionOverrides(
         getString(record.fields, "title") ?? pressKit.clubs.title;
       pressKit.clubs.description =
         getString(record.fields, "description") ?? pressKit.clubs.description;
-    }
-
-    if (sectionKey === "sound") {
-      pressKit.sound.eyebrow =
-        getString(record.fields, "eyebrow") ?? pressKit.sound.eyebrow;
-      pressKit.sound.title =
-        getString(record.fields, "title") ?? pressKit.sound.title;
-      pressKit.sound.paragraphs =
-        getStringArray(record.fields, "paragraphs") ?? pressKit.sound.paragraphs;
-      pressKit.sound.embedTitle =
-        getString(record.fields, "embedTitle") ?? pressKit.sound.embedTitle;
-      pressKit.sound.embedUrl =
-        getString(record.fields, "embedUrl") ?? pressKit.sound.embedUrl;
-      pressKit.sound.cta.label =
-        getString(record.fields, "ctaLabel") ?? pressKit.sound.cta.label;
-      pressKit.sound.cta.href =
-        getString(record.fields, "ctaHref") ?? pressKit.sound.cta.href;
-      pressKit.sound.cta.variant =
-        (getString(record.fields, "ctaVariant") as CtaLink["variant"]) ??
-        pressKit.sound.cta.variant;
-      pressKit.sound.cta.external =
-        getBoolean(record.fields, "ctaExternal") ?? pressKit.sound.cta.external;
     }
 
     if (sectionKey === "videos") {
@@ -603,30 +561,6 @@ function applySectionOverrides(
         getString(record.fields, "description") ?? pressKit.spotify.description;
       pressKit.spotify.badgeLabel =
         getString(record.fields, "badgeLabel") ?? pressKit.spotify.badgeLabel;
-    }
-
-    if (sectionKey === "brands") {
-      pressKit.brands.eyebrow =
-        getString(record.fields, "eyebrow") ?? pressKit.brands.eyebrow;
-      pressKit.brands.title =
-        getString(record.fields, "title") ?? pressKit.brands.title;
-      pressKit.brands.intro =
-        getString(record.fields, "intro") ?? pressKit.brands.intro;
-      pressKit.brands.supportingText =
-        getString(record.fields, "supportingText") ??
-        pressKit.brands.supportingText;
-      pressKit.brands.itemLabel =
-        getString(record.fields, "itemLabel") ?? pressKit.brands.itemLabel;
-      pressKit.brands.categories =
-        getStringArray(record.fields, "categories") ??
-        pressKit.brands.categories;
-      pressKit.brands.fit.eyebrow =
-        getString(record.fields, "fitEyebrow") ?? pressKit.brands.fit.eyebrow;
-      pressKit.brands.fit.title =
-        getString(record.fields, "fitTitle") ?? pressKit.brands.fit.title;
-      pressKit.brands.fit.points =
-        getStringArray(record.fields, "fitPoints") ??
-        pressKit.brands.fit.points;
     }
 
     if (sectionKey === "contact") {
