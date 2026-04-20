@@ -3,8 +3,6 @@ import type {
   CtaLink,
   GalleryImage,
   PressKitConfig,
-  SpotifyPlaylist,
-  StatItem,
   VideoItem,
 } from "@/data/config";
 import {
@@ -19,8 +17,6 @@ import type {
 import {
   defaultTemplateId,
   defaultTemplateVariantId,
-  type TemplateId,
-  type TemplateVariantId,
 } from "@/data/templates";
 import { matchesHostname } from "@/lib/domains";
 
@@ -475,13 +471,6 @@ function mergeClientScalars(
   client.bookingEmail =
     getString(fields, "bookingEmail") ?? client.bookingEmail;
 
-  const defaultTheme = getString(fields, "defaultTheme");
-  const defaultVariant = getString(fields, "defaultVariant");
-
-  client.defaultTheme = (defaultTheme as TemplateId) ?? client.defaultTheme;
-  client.defaultVariant =
-    (defaultVariant as TemplateVariantId) ?? client.defaultVariant;
-
   client.socials.instagram =
     getString(fields, "instagram", "instagramUrl") ?? client.socials.instagram;
   client.socials.soundCloud =
@@ -666,66 +655,6 @@ function applySectionOverrides(
   }
 }
 
-function applyHeroVariantOverrides(
-  pressKit: PressKitConfig,
-  heroVariantRecords: AirtableRecord[]
-) {
-  for (const record of heroVariantRecords) {
-    const variantId = getString(record.fields, "variant")?.toLowerCase() as
-      | keyof PressKitConfig["heroVariants"]
-      | undefined;
-
-    if (!variantId || !pressKit.heroVariants[variantId]) {
-      continue;
-    }
-
-    const variant = pressKit.heroVariants[variantId];
-    variant.eyebrow =
-      getString(record.fields, "eyebrow") ?? variant.eyebrow;
-    variant.title = getString(record.fields, "title") ?? variant.title;
-    variant.accent = getString(record.fields, "accent") ?? variant.accent;
-    variant.description =
-      getString(record.fields, "description") ?? variant.description;
-    variant.image.src =
-      getString(record.fields, "imageSrc") ??
-      getAttachmentUrl(record.fields, "imageFile") ??
-      variant.image.src;
-    variant.image.alt =
-      getString(record.fields, "imageAlt") ?? variant.image.alt;
-    variant.image.badge =
-      getString(record.fields, "imageBadge") ?? variant.image.badge;
-    variant.image.caption =
-      getString(record.fields, "imageCaption") ?? variant.image.caption;
-    variant.footerNote =
-      getString(record.fields, "footerNote") ?? variant.footerNote;
-
-    const ctas = getJsonValue<CtaLink[]>(record.fields, "ctasJson");
-    const stats = getJsonValue<StatItem[]>(record.fields, "statsJson");
-    const mediaCard = getJsonValue<NonNullable<typeof variant.mediaCard>>(
-      record.fields,
-      "mediaCardJson"
-    );
-
-    if (ctas?.length) {
-      variant.ctas = ctas;
-    }
-
-    if (stats?.length) {
-      variant.stats = stats;
-    }
-
-    if (mediaCard) {
-      variant.mediaCard = mediaCard;
-    }
-
-    if (variant.mediaCard) {
-      variant.mediaCard.imageSrc =
-        getAttachmentUrl(record.fields, "mediaCardImageFile") ??
-        variant.mediaCard.imageSrc;
-    }
-  }
-}
-
 function toGalleryImages(records: AirtableRecord[]): GalleryImage[] {
   const images = records
     .map((record) => {
@@ -814,25 +743,6 @@ function toVideos(records: AirtableRecord[]): VideoItem[] {
     .filter((item): item is VideoItem => Boolean(item));
 }
 
-function toSpotifyPlaylists(records: AirtableRecord[]): SpotifyPlaylist[] {
-  return records
-    .map((record) => {
-      const title = getString(record.fields, "title");
-      const embedUrl = getString(record.fields, "embedUrl");
-
-      if (!title || !embedUrl) {
-        return null;
-      }
-
-      return {
-        id: getString(record.fields, "id") ?? record.id,
-        title,
-        embedUrl,
-      } satisfies SpotifyPlaylist;
-    })
-    .filter((item): item is SpotifyPlaylist => Boolean(item));
-}
-
 function toContactMethods(records: AirtableRecord[]): ContactMethod[] {
   const methods = records
     .map((record) => {
@@ -894,47 +804,6 @@ function toTestimonials(records: AirtableRecord[]): ClientTestimonial[] {
   return testimonials;
 }
 
-function applyClubRegions(pressKit: PressKitConfig, records: AirtableRecord[]) {
-  const regions = records
-    .map((record) => {
-      const title = getString(record.fields, "title");
-      const icon = getString(record.fields, "icon") as
-        | "map-pin"
-        | "globe"
-        | undefined;
-      const items = getStringArray(record.fields, "items");
-
-      if (!title || !icon || !items?.length) {
-        return null;
-      }
-
-      return { title, icon, items };
-    })
-    .filter(
-      (
-        item
-      ): item is {
-        title: string;
-        icon: "map-pin" | "globe";
-        items: string[];
-      } => Boolean(item)
-    );
-
-  if (regions.length > 0) {
-    pressKit.clubs.regions = regions;
-  }
-}
-
-function applyBrands(pressKit: PressKitConfig, records: AirtableRecord[]) {
-  const items = records
-    .map((record) => getString(record.fields, "label", "name", "title"))
-    .filter((item): item is string => Boolean(item));
-
-  if (items.length > 0) {
-    pressKit.brands.items = items;
-  }
-}
-
 function createClientTemplate(slug: string): ClientConfig {
   const localClient = getLocalClientBySlug(slug);
   const fallbackClient = getLocalClients()[0];
@@ -974,15 +843,9 @@ async function getAirtableClientBySlugUncached(
   const childRecords = await getAirtableChildRecords(normalizedSlug);
 
   applySectionOverrides(client.pressKit, childRecords.sectionRecords);
-  applyHeroVariantOverrides(client.pressKit, childRecords.heroVariantRecords);
-  applyClubRegions(client.pressKit, childRecords.clubRegionRecords);
-  applyBrands(client.pressKit, childRecords.brandRecords);
 
   const galleryImages = toGalleryImages(childRecords.galleryImageRecords);
   const videos = toVideos(childRecords.videoRecords);
-  const spotifyPlaylists = toSpotifyPlaylists(
-    childRecords.spotifyPlaylistRecords
-  );
   const contactMethods = toContactMethods(childRecords.contactMethodRecords);
   const services = toServices(childRecords.serviceRecords);
   const testimonials = toTestimonials(childRecords.testimonialRecords);
@@ -999,10 +862,6 @@ async function getAirtableClientBySlugUncached(
 
   if (videos.length > 0) {
     client.pressKit.videos.items = videos;
-  }
-
-  if (spotifyPlaylists.length > 0) {
-    client.pressKit.spotify.playlists = spotifyPlaylists;
   }
 
   if (contactMethods.length > 0) {
