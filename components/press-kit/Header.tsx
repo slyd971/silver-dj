@@ -25,6 +25,7 @@ export function Header({ artist, navigation, ui, homeHref = "/" }: HeaderProps) 
     stageLabelParts.slice(0, 2).join(" • "),
     stageLabelParts.slice(2).join(" • "),
   ].filter(Boolean);
+  const hasLogoImage = artist.logo.src.trim().length > 0;
 
   useEffect(() => {
     lastScrollY.current = window.scrollY;
@@ -85,7 +86,7 @@ export function Header({ artist, navigation, ui, homeHref = "/" }: HeaderProps) 
     >
       <div
         className={`mx-auto flex max-w-[1720px] items-center justify-between px-4 transition-all duration-300 md:px-10 ${
-          isHeaderCompact ? "h-[60px] md:h-[72px]" : "h-[72px] md:h-[88px]"
+          isHeaderCompact ? "h-[58px] md:h-[68px]" : "h-[68px] md:h-[80px]"
         }`}
       >
         <div className="flex min-w-0 items-center gap-3 md:gap-5">
@@ -93,15 +94,39 @@ export function Header({ artist, navigation, ui, homeHref = "/" }: HeaderProps) 
             <div
               className={`flex items-center overflow-hidden transition-all duration-300 ${
                 isHeaderCompact
-                  ? "h-8 w-[96px] md:h-9 md:w-[120px]"
-                  : "h-9 w-[110px] md:h-11 md:w-[140px]"
+                  ? "h-8 w-[128px] md:h-9 md:w-[152px]"
+                  : "h-10 w-[146px] md:h-11 md:w-[172px]"
               }`}
             >
-              <img
-                src={artist.logo.src}
-                alt={artist.logo.alt}
-                className="h-[175%] w-auto max-w-none shrink-0 object-contain object-left md:h-[185%]"
-              />
+              {hasLogoImage ? (
+                <img
+                  src={artist.logo.src}
+                  alt={artist.logo.alt}
+                  className="h-[175%] w-auto max-w-none shrink-0 object-contain object-left md:h-[185%]"
+                />
+              ) : (
+                <div className="flex flex-col leading-none text-white">
+                  <span
+                    className={`font-black uppercase tracking-[0.18em] ${
+                      isHeaderCompact
+                        ? "text-[1.2rem] md:text-[1.3rem]"
+                        : "text-[1.35rem] md:text-[1.5rem]"
+                    }`}
+                    style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
+                  >
+                    Silver
+                  </span>
+                  <span
+                    className={`-mt-0.5 font-black uppercase tracking-[0.42em] text-[var(--pk-accent)] ${
+                      isHeaderCompact
+                        ? "text-[0.58rem] md:text-[0.62rem]"
+                        : "text-[0.62rem] md:text-[0.68rem]"
+                    }`}
+                  >
+                    DJ
+                  </span>
+                </div>
+              )}
             </div>
           </Link>
 
@@ -114,8 +139,8 @@ export function Header({ artist, navigation, ui, homeHref = "/" }: HeaderProps) 
           </div>
         </div>
 
-        <div className="flex items-center gap-3 md:gap-8 xl:gap-10">
-          <nav className="hidden items-center gap-8 text-[11px] font-semibold uppercase tracking-[0.30em] text-white/78 lg:flex xl:gap-10">
+        <div className="flex items-center gap-3 md:gap-6 xl:gap-8">
+          <nav className="hidden items-center gap-7 text-[10px] font-semibold uppercase tracking-[0.28em] text-white/76 lg:flex xl:gap-8">
             {navigation.items.map((item) => (
               <a key={item.href} href={item.href} className="transition hover:text-white">
                 {item.label}
@@ -136,10 +161,10 @@ export function Header({ artist, navigation, ui, homeHref = "/" }: HeaderProps) 
 
           <a
             href={navigation.cta.href}
-            className={`hidden rounded-full bg-[var(--pk-accent)] font-semibold uppercase text-white transition-all duration-300 hover:bg-[var(--pk-accent-strong)] lg:inline-flex ${
+            className={`hidden rounded-full border border-[rgb(var(--pk-accent-rgb)/0.28)] bg-[var(--pk-accent)] font-semibold uppercase text-white shadow-[0_14px_36px_rgba(181,31,36,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[var(--pk-accent-strong)] lg:inline-flex ${
               isHeaderCompact
-                ? "px-5 py-2 text-[11px] tracking-[0.18em]"
-                : "px-7 py-3 text-xs tracking-[0.24em]"
+                ? "px-4.5 py-2 text-[10px] tracking-[0.18em]"
+                : "px-6 py-2.5 text-[11px] tracking-[0.22em]"
             }`}
           >
             {navigation.cta.label}

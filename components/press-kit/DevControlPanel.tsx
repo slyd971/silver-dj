@@ -127,10 +127,10 @@ export function DevControlPanel({
         >
           <div className="min-w-0">
             <div className="text-[10px] font-semibold uppercase tracking-[0.22em] text-white/55">
-              Local Switcher
+              Sélecteur local
             </div>
             <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/90">
-              <span>{activeVariant?.label ?? "Gallery"}</span>
+              <span>{activeVariant?.label ?? "Galerie"}</span>
               <span className="flex items-center gap-2">
                 <span
                   className="h-2.5 w-2.5 rounded-full border border-white/15"
@@ -155,7 +155,7 @@ export function DevControlPanel({
               <section className="rounded-2xl border border-white/10 bg-white/[0.03] p-2">
                 <div className="mb-1.5 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/58">
                   <UserRound className="h-3.5 w-3.5 text-white/75" />
-                  Artist
+                  Artiste
                 </div>
                 <div className="flex flex-wrap gap-1">
                   {artists.map((artist) => (
@@ -174,7 +174,7 @@ export function DevControlPanel({
               <section className="rounded-2xl border border-white/10 bg-white/[0.03] p-2">
                 <div className="mb-1.5 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/58">
                   <LayoutTemplate className="h-3.5 w-3.5 text-white/75" />
-                  Template
+                  Modèle
                 </div>
                 <div className="flex flex-wrap gap-1">
                   {variants.map((variant: TemplateVariant) => (
@@ -227,11 +227,11 @@ export function DevControlPanel({
 
             <section className="rounded-2xl border border-white/10 bg-white/[0.03] p-2">
               <div className="mb-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/58">
-                Intake
+                Formulaire
               </div>
               <div className="grid gap-1 text-[11px] text-white/72">
                 <div>
-                  Form source: {clientIntakeConfig.googleAppsScript.projectDirectory}
+                  Source du formulaire: {clientIntakeConfig.googleAppsScript.projectDirectory}
                 </div>
                 <div className="break-all font-mono text-[10px] text-white/60">
                   {clientIntakeConfig.importWorkflow.command}

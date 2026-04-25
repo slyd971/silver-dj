@@ -1,8 +1,9 @@
 import { djslydClient } from "@/data/clients/djslyd";
+import { silverDjClient } from "@/data/clients/silver-dj";
 import { yoruboyDjClient } from "@/data/clients/yoruboy-dj";
 import type { ClientConfig } from "@/data/clients/types";
 
-export const clientRegistry = [djslydClient, yoruboyDjClient] as const;
+export const clientRegistry = [djslydClient, silverDjClient, yoruboyDjClient] as const;
 
 export type ClientSlug = (typeof clientRegistry)[number]["slug"];
 

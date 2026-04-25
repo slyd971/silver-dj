@@ -17,7 +17,8 @@ export function buildClientMetadata(
   const description = overrides?.description ?? client.seo.description;
   const image = overrides?.image ?? client.seo.ogImage;
   const keywords = overrides?.keywords ?? client.seo.keywords;
-  const imageAlt = overrides?.imageAlt ?? `${client.name} press kit preview`;
+  const imageAlt =
+    overrides?.imageAlt ?? `Aperçu du dossier de presse de ${client.name}`;
   const canonicalUrl = getCanonicalUrl(client, path);
   const imageUrl = new URL(image, canonicalUrl).toString();
 
@@ -144,7 +145,7 @@ export function buildGalleryJsonLd(client: ClientConfig) {
     "@type": "CollectionPage",
     "@id": `${getCanonicalUrl(client, "/gallery")}#webpage`,
     url: getCanonicalUrl(client, "/gallery"),
-    name: `${client.name} Gallery`,
+    name: `${client.name} Galerie`,
     description: client.pressKit.gallery.description,
     isPartOf: {
       "@id": `${getCanonicalUrl(client)}#website`,

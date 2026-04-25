@@ -35,17 +35,17 @@ export async function generateMetadata({
   );
 
   return buildClientMetadata(client, "/gallery", {
-    title: `${client.name} Gallery | Press Photos & Media Assets`,
+    title: `${client.name} Galerie | Photos presse et médias`,
     description: client.pressKit.gallery.description,
     image: client.gallery[0]?.src ?? client.seo.ogImage,
     keywords: [
-      `${client.slug} gallery`,
-      "DJ press photos",
-      "artist media kit",
-      "press visuals",
-      `${client.city} DJ gallery`,
+      `${client.slug} galerie`,
+      "photos presse DJ",
+      "kit média artiste",
+      "visuels presse",
+      `galerie DJ ${client.city}`,
     ],
-    imageAlt: client.gallery[0]?.alt ?? `${client.name} gallery visual`,
+    imageAlt: client.gallery[0]?.alt ?? `Visuel galerie de ${client.name}`,
   });
 }
 
@@ -97,7 +97,7 @@ export default async function GalleryPage({ searchParams }: GalleryPageProps) {
           <p className="mt-4 max-w-2xl text-white/60">
             {hasGallery
               ? pressKitConfig.gallery.description
-              : "No gallery assets available yet for this artist."}
+              : "Aucun visuel de galerie n'est encore disponible pour cet artiste."}
           </p>
         </div>
 

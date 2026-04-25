@@ -1,4 +1,4 @@
-import { Instagram, Mail, Music2, Phone } from "lucide-react";
+import { Instagram, Mail, Music2, Phone, Youtube } from "lucide-react";
 import type { ContactMethod, PressKitConfig } from "@/data/config";
 
 type ContactSectionProps = {
@@ -18,12 +18,27 @@ function TikTokIcon({ className }: { className?: string }) {
   );
 }
 
+function WhatsAppIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+      className={className}
+    >
+      <path d="M12.04 2a9.88 9.88 0 0 0-8.55 14.8L2.2 22l5.34-1.25A9.93 9.93 0 1 0 12.04 2Zm0 18.08a8.08 8.08 0 0 1-4.13-1.13l-.3-.18-3.16.74.76-3.06-.2-.32a8.05 8.05 0 1 1 7.03 3.95Zm4.42-6.03c-.24-.12-1.43-.7-1.65-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1.01-.37-1.92-1.18-.71-.63-1.19-1.41-1.33-1.65-.14-.24-.02-.37.1-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.2-.47-.4-.4-.54-.41h-.46c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.7 2.6 4.12 3.64.58.25 1.03.4 1.38.51.58.18 1.1.16 1.52.1.46-.07 1.43-.58 1.63-1.14.2-.56.2-1.04.14-1.14-.06-.1-.22-.16-.46-.28Z" />
+    </svg>
+  );
+}
+
 const iconMap = {
   instagram: Instagram,
   mail: Mail,
   music: Music2,
   phone: Phone,
   tiktok: TikTokIcon,
+  whatsapp: WhatsAppIcon,
+  youtube: Youtube,
 };
 
 function LargeContactCard({ method }: { method: ContactMethod }) {

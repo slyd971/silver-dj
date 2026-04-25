@@ -72,6 +72,23 @@ select {
   scrollbar-width: none;
 }
 
+.pk-hero-stat-card {
+  opacity: 0;
+  animation: pkHeroStatIn 700ms ease-out forwards;
+}
+
+@keyframes pkHeroStatIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }

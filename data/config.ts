@@ -15,11 +15,30 @@ export type StatItem = {
   label: string;
 };
 
+export type SocialLink = {
+  label: string;
+  href: string;
+  icon:
+    | "instagram"
+    | "tiktok"
+    | "youtube"
+    | "spotify"
+    | "soundcloud"
+    | "apple-music";
+};
+
 export type ContactMethod = {
   label: string;
   value: string;
   href: string;
-  icon: "mail" | "phone" | "instagram" | "music" | "tiktok";
+  icon:
+    | "mail"
+    | "phone"
+    | "instagram"
+    | "music"
+    | "tiktok"
+    | "youtube"
+    | "whatsapp";
   external?: boolean;
 };
 
@@ -38,13 +57,24 @@ export type SpotifyPlaylist = {
   embedUrl: string;
 };
 
-export type VideoItem = {
+export type VideoItemBase = {
   id: string;
   title: string;
   description: string;
-  src: string;
-  poster: string;
+  poster?: string;
 };
+
+export type LocalVideoItem = VideoItemBase & {
+  source?: "local";
+  src: string;
+};
+
+export type YoutubeVideoItem = VideoItemBase & {
+  source: "youtube";
+  embedUrl: string;
+};
+
+export type VideoItem = LocalVideoItem | YoutubeVideoItem;
 
 export type PressKitConfig = {
   metadata: {
@@ -72,6 +102,7 @@ export type PressKitConfig = {
     items: NavItem[];
     cta: CtaLink;
   };
+  heroSocials?: SocialLink[];
   heroVariants: Record<
     "impact" | "interactive" | "showcase",
     {
@@ -88,6 +119,7 @@ export type PressKitConfig = {
       };
       ctas: CtaLink[];
       stats: StatItem[];
+      proofline?: string;
       mediaCard?: {
         label: string;
         title: string;

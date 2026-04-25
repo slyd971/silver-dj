@@ -639,18 +639,45 @@ function toVideos(records: AirtableRecord[]): VideoItem[] {
   return records
     .map((record) => {
       const videoSource = getString(record.fields, "videoSource", "source")?.toLowerCase();
+      const title = getString(record.fields, "title");
+
+      if (!title) {
+        return null;
+      }
+
+      const poster =
+        getString(record.fields, "poster") ??
+        getAttachmentUrl(record.fields, "posterFile");
+      const embedUrl =
+        getString(record.fields, "embedUrl") ??
+        getString(record.fields, "youtubeEmbedUrl");
+
+      if (videoSource === "youtube") {
+        if (!embedUrl) {
+          return null;
+        }
+
+        return {
+          id:
+            getString(record.fields, "id") ??
+            getString(record.fields, "slug") ??
+            record.id,
+          title,
+          description: getString(record.fields, "description") ?? "",
+          source: "youtube",
+          embedUrl,
+          poster,
+        } satisfies VideoItem;
+      }
+
       const src =
         (videoSource === "airtable"
           ? getAttachmentUrl(record.fields, "videoFile")
           : undefined) ??
         getString(record.fields, "src") ??
         getAttachmentUrl(record.fields, "videoFile");
-      const poster =
-        getString(record.fields, "poster") ??
-        getAttachmentUrl(record.fields, "posterFile");
-      const title = getString(record.fields, "title");
 
-      if (!src || !poster || !title) {
+      if (!src) {
         return null;
       }
 
@@ -661,11 +688,12 @@ function toVideos(records: AirtableRecord[]): VideoItem[] {
           record.id,
         title,
         description: getString(record.fields, "description") ?? "",
+        source: "local",
         src,
         poster,
       } satisfies VideoItem;
     })
-    .filter((item): item is VideoItem => Boolean(item));
+    .filter((item): item is NonNullable<typeof item> => item !== null);
 }
 
 function toContactMethods(records: AirtableRecord[]): ContactMethod[] {

@@ -79,7 +79,7 @@ export const templateThemes: Record<TemplateId, TemplateTheme> = {
   },
   monochrome: {
     id: "monochrome",
-    label: "Black & White",
+    label: "Noir et blanc",
     accent: "#FFFFFF",
     accentStrong: "#E5E5E5",
     accentSoft: "#B8B8B8",
@@ -100,8 +100,8 @@ export const templateThemeOrder: TemplateId[] = [
 ];
 export const templateVariants: Record<TemplateVariantId, TemplateVariant> = {
   impact: { id: "impact", label: "Impact" },
-  interactive: { id: "interactive", label: "Interactive" },
-  showcase: { id: "showcase", label: "Showcase" },
+  interactive: { id: "interactive", label: "Interactif" },
+  showcase: { id: "showcase", label: "Vitrine" },
 };
 export const defaultTemplateVariantId: TemplateVariantId = "impact";
 export const templateVariantOrder: TemplateVariantId[] = [
