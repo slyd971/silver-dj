@@ -375,7 +375,7 @@ const silverDjPressKit: PressKitConfig = {
 export const silverDjClient: ClientConfig = {
   slug: "silver-dj",
   domain: "silver-dj.presskit.fr",
-  vercelSubdomain: "silver-dj.vercel.app",
+  vercelSubdomain: "silver-dj-slyd971s-projects.vercel.app",
   name: "Silver DJ",
   tagline: "DJ open format • Abidjan • Cote d'Ivoire & international",
   city: "Abidjan",

@@ -6,4 +6,7 @@ node_modules
 .env.local
 .vercel
 public/yoruboy
+public/press-kit
+public/slyd
+public/logos
 public/slyd/*.mov
