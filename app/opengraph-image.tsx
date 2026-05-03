@@ -47,7 +47,7 @@ export default async function OpenGraphImage() {
           display: "flex",
           position: "relative",
           overflow: "hidden",
-          background: `linear-gradient(135deg, ${theme.background} 0%, #140d0b 40%, #2f1b12 100%)`,
+          background: theme.background,
           color: theme.text,
           fontFamily:
             "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
@@ -68,7 +68,7 @@ export default async function OpenGraphImage() {
             position: "absolute",
             right: 0,
             top: 0,
-            width: 470,
+            width: 520,
             height: 630,
             display: "flex",
             overflow: "hidden",
@@ -81,7 +81,7 @@ export default async function OpenGraphImage() {
               width: "100%",
               height: "100%",
               objectFit: "cover",
-              objectPosition: "center top",
+              objectPosition: "center 15%",
               display: "flex",
             }}
           />
