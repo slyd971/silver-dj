@@ -416,16 +416,6 @@ const silverDjPressKit: PressKitConfig = {
         position: "center 20%",
       },
       {
-        src: "/silver-dj/gallery/gallery-silver16.jpg",
-        alt: "Silver DJ en live grand format",
-        position: "center 35%",
-      },
-      {
-        src: "/silver-dj/gallery/gallery-silver17.jpg",
-        alt: "Silver DJ en live au Bloom",
-        position: "center 18%",
-      },
-      {
         src: "/silver-dj/gallery/optimized/gallery-silver2.jpg",
         alt: "Silver DJ en performance live",
         position: "center 18%",
@@ -433,11 +423,6 @@ const silverDjPressKit: PressKitConfig = {
       {
         src: "/silver-dj/gallery/optimized/gallery-silver3.jpg",
         alt: "Silver DJ derrière les platines",
-        position: "center 20%",
-      },
-      {
-        src: "/silver-dj/gallery/optimized/gallery-silver3-1.jpeg",
-        alt: "Silver DJ en performance",
         position: "center 20%",
       },
       {
@@ -482,6 +467,11 @@ const silverDjPressKit: PressKitConfig = {
         position: "center 20%",
       },
       {
+        src: "/silver-dj/gallery/gallery-silver16.jpg",
+        alt: "Silver DJ en live grand format",
+        position: "center 35%",
+      },
+      {
         src: "/silver-dj/gallery/optimized/gallery-silver14.jpg",
         alt: "Silver DJ sur une scène internationale",
         size: "md:col-span-2",
@@ -492,6 +482,16 @@ const silverDjPressKit: PressKitConfig = {
         alt: "Silver DJ face au public",
         size: "md:col-span-2",
         position: "center 22%",
+      },
+      {
+        src: "/silver-dj/gallery/optimized/gallery-silver3-1.jpeg",
+        alt: "Silver DJ en performance",
+        position: "center 20%",
+      },
+      {
+        src: "/silver-dj/gallery/gallery-silver17.jpg",
+        alt: "Silver DJ en live au Bloom",
+        position: "center 18%",
       },
       {
         src: "/silver-dj/gallery/gallery-silver18.jpg",
