@@ -6,6 +6,8 @@
     "create:client": "./scripts/create-client-press-kit.sh",
     "create:press-kit": "./scripts/create-press-kit.sh",
     "import:client-form": "python3 ./scripts/import-client-form.py",
+    "check:client": "node ./scripts/check-client-assets.mjs",
+    "deploy:client": "./scripts/deploy-client.sh",
     "dev": "next dev -p 3002",
     "build": "next build",
     "start": "next start -p 3002"
