@@ -12,7 +12,7 @@ const youtubeChannelUrl =
 const bookingEmail = "silverdj225booking@gmail.com";
 const bookingPhone = "(+225) 07 87 87 97 80";
 const bookingWhatsapp = "https://wa.me/2250101535174";
-const heroImage = "/silver-dj/gallery/optimized/gallery-silver1.jpg";
+const heroImage = "/silver-dj/hero-silver-new.jpeg";
 const spotifyUrl =
   "https://open.spotify.com/playlist/37i9dQZF1E4yYwPTq3OA1m?utm_source=generator&theme=0";
 const appleMusicUrl =
@@ -416,12 +416,12 @@ const silverDjPressKit: PressKitConfig = {
         position: "center 20%",
       },
       {
-        src: "/silver-dj/gallery/optimized/gallery-silver13.jpg",
+        src: "/silver-dj/gallery/gallery-silver16.jpg",
         alt: "Silver DJ en live grand format",
         position: "center 35%",
       },
       {
-        src: "/silver-dj/gallery/silverdj-bloom-1.jpg",
+        src: "/silver-dj/gallery/gallery-silver17.jpg",
         alt: "Silver DJ en live au Bloom",
         position: "center 18%",
       },
@@ -494,17 +494,13 @@ const silverDjPressKit: PressKitConfig = {
         position: "center 22%",
       },
       {
-        src: "/silver-dj/gallery/silverdj-BSFS-1.jpg",
+        src: "/silver-dj/gallery/gallery-silver18.jpg",
         alt: "Portrait live de Silver DJ",
       },
       {
-        src: "/silver-dj/gallery/silverdj-champion-2.jpg",
+        src: "/silver-dj/gallery/gallery-silver19.jpg",
         alt: "Silver DJ moment victoire",
         size: "md:col-span-2",
-      },
-      {
-        src: "/silver-dj/gallery/silverdj-bloom-2.jpg",
-        alt: "Public du Bloom avec Silver DJ",
       },
       {
         src: "/silver-dj/gallery/silverdj-champion-3.jpg",
