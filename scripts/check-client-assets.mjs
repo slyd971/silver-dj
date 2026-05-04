@@ -21,6 +21,8 @@ const clients = {
   },
 };
 
+const allPublicDirs = [...new Set(Object.values(clients).flatMap((client) => client.publicDirs))];
+
 const slug = process.argv[2];
 const strict = process.argv.includes("--strict");
 const deployCheck = process.argv.includes("--deploy-check");
@@ -64,15 +66,6 @@ function isIgnoredPublicFile(file) {
   );
 }
 
-function parentDirs(file) {
-  const parts = file.split(path.sep);
-  const dirs = [];
-  for (let index = 0; index < parts.length - 1; index += 1) {
-    dirs.push(parts.slice(0, index + 1).join("/"));
-  }
-  return dirs;
-}
-
 const config = clients[slug];
 const inputFiles = config.files.flatMap(walk).filter((file) => /\.(ts|csv)$/.test(file));
 const refs = new Set(inputFiles.flatMap((file) => [...publicRefsFromFile(file)]));
@@ -101,17 +94,19 @@ if (printVercelIgnore) {
     ".vercel",
     "docs",
     ".claude/",
-    "public/*",
   ];
 
-  const allow = new Set();
-  for (const ref of refs) {
-    const publicPath = path.join("public", ref);
-    for (const dir of parentDirs(publicPath)) allow.add(`!${dir}/`);
-    allow.add(`!${publicPath}`);
+  for (const dir of allPublicDirs) {
+    if (!config.publicDirs.includes(dir)) lines.push(`public/${dir}/**`);
   }
 
-  lines.push(...[...allow].sort());
+  const ignoredOwnedFiles = new Set(
+    ownedPublicFiles
+      .filter((file) => isIgnoredPublicFile(file) || !referencedSet.has(path.normalize(file)))
+      .map((file) => file.split(path.sep).join("/"))
+  );
+
+  lines.push(...[...ignoredOwnedFiles].sort());
   console.log(lines.join("\n"));
   process.exit(missing.length || oversizedReferenced.length ? 1 : 0);
 }
