@@ -10,11 +10,11 @@ const tikTokUrl = "https://www.tiktok.com/@slvr_dj";
 const youtubeChannelUrl =
   "https://www.youtube.com/channel/UCuH8Wy4BwCt_vGExn_xZEVA?app=desktop";
 const bookingEmail = "silverdj225booking@gmail.com";
-const bookingPhone = "(+225) 07 87 87 97 80";
-const bookingWhatsapp = "https://wa.me/2250101535174";
+const bookingPhone = "+225 05 55 111 104";
+const bookingWhatsapp = "https://wa.me/2250555111104";
 const heroImage = "/silver-dj/hero-silver-new.jpeg";
 const spotifyUrl =
-  "https://open.spotify.com/playlist/37i9dQZF1E4yYwPTq3OA1m?utm_source=generator&theme=0";
+  "https://open.spotify.com/show/6UhL5QvjOxR585eL5hd6lN?si=m8S1kwFXTiKhXIVdy-Ef0Q";
 const appleMusicUrl =
   "https://podcasts.apple.com/ci/podcast/silver-dj-slvr-dj/id1755049366";
 
@@ -167,8 +167,8 @@ const silverDjPressKit: PressKitConfig = {
     paragraphs: [
       "Né à Bouaké le 04 septembre 2001, Silver DJ, alias Coulibaly Siaka, est un DJ ivoirien marqué par une passion profonde pour la musique, la performance scénique et la culture du deejaying.",
       "Issu de la première promotion de la DJ School à Abidjan, il fait ses premiers pas en compétition en 2021 lors de la Battle DJ Highlander, qu'il remporte brillamment. Cette victoire l'installe rapidement dans le milieu professionnel abidjanais.",
-      "De 2021 à 2024, il devient DJ résident au Felah, un lieu emblématique de la jeunesse abidjanaise. Il y affine son identité, sa technique et sa présence, avant de confirmer son rayonnement avec les titres de champion DMC West Africa 2024, 2025 et 2026.",
-      "Vice-champion DMC World 2024 à Paris, 3e DMC World 2025 à Tokyo et Best International DJ aux Guinness Ghana DJ Awards 2024, Silver DJ continue d'élargir son influence entre clubs, festivals, médias, institutions et scènes internationales.",
+      "De 2021 à 2024, il devient DJ résident au Felah, un lieu emblématique de la jeunesse abidjanaise. Il y affine son identité, sa technique et sa présence scénique. Depuis 2023, il est également DJ résident du Bloom, considéré comme l'un des clubs les plus réputés de la nuit abidjanaise, où il impose progressivement son univers musical et son énergie derrière les platines.",
+      "Son ascension se confirme ensuite avec les titres de champion DMC West Africa 2024, 2025 et 2026. Vice-champion DMC World 2024 à Paris, 3e au DMC World 2025 à Tokyo et Best International DJ aux Guinness Ghana DJ Awards 2024, Silver DJ continue d'élargir son influence entre clubs, festivals, médias, institutions et scènes internationales.",
     ],
   },
   clubs: {
@@ -181,6 +181,13 @@ const silverDjPressKit: PressKitConfig = {
         title: "Scènes & festivals",
         icon: "map-pin",
         items: [
+          "Boiler Room - Abidjan",
+          "Ensemble - Abidjan",
+          "Antidote - Abidjan",
+          "La Fête nationale française (Bastille Day) Reception 2025 - French Embassy in Côte d'Ivoire",
+          "SDM Live Concert - Abidjan, 21 Dec 2024",
+          "Tiakola Live Concert - Abidjan, 24 Dec 2022 (+10,000 attendees)",
+          "Concert Leto - 29 juillet 2023",
           "Concert Didi B - Stade Felix Houphouet-Boigny",
           "Happy Run - 50K pers",
           "Ivo Chella - 20K+ pers",
@@ -195,14 +202,15 @@ const silverDjPressKit: PressKitConfig = {
         title: "International",
         icon: "globe",
         items: [
-          "DMC World Paris 2024",
-          "DMC World Tokyo 2025",
-          "Casablanca - Joker Club",
-          "Casablanca - Morocco Mall Fan Zone",
-          "AfroChill Lyon",
-          "Nikki Beach Congo",
-          "La Bagatelle Pointe-Noire",
-          "Le Zanzi Club Congo",
+          "DMC World Paris 2024 🇫🇷",
+          "DMC World Tokyo 2025 🇯🇵",
+          "(Joker Club), Casablanca 🇲🇦",
+          "(Morocco Mall), Casablanca 🇲🇦",
+          "(Milos), Casablanca 🇲🇦",
+          "AfroChill Lyon 🇫🇷",
+          "Nikki Beach Congo 🇨🇬",
+          "La Bagatelle Pointe-Noire 🇨🇬",
+          "Le Zanzi Club Congo 🇨🇬",
         ],
       },
       {
@@ -309,19 +317,19 @@ const silverDjPressKit: PressKitConfig = {
     ],
   },
   spotify: {
-    eyebrow: "Spotify",
-    title: "Silver Radio",
+    eyebrow: "Podcast",
+    title: "Silver DJ\nOfficial Podcast",
     description:
-      "Mixes, remixes et sélections club signés Silver DJ — disponibles en streaming.",
+      "Sets, mixes et sélections club en écoute libre — le son de Silver DJ directement sur Spotify.",
     playlists: [
       {
         id: "silver-radio",
-        title: "Mix & sélections Silver DJ",
+        title: "Silver DJ Official Podcast",
         embedUrl:
-          "https://open.spotify.com/embed/playlist/37i9dQZF1E4yYwPTq3OA1m?utm_source=generator&theme=0",
+          "https://open.spotify.com/embed/show/6UhL5QvjOxR585eL5hd6lN?utm_source=generator&theme=0",
       },
     ],
-    badgeLabel: "Sélection Silver DJ",
+    badgeLabel: "Silver DJ Official Podcast",
   },
   brands: {
     eyebrow: "Partenaires",
@@ -340,6 +348,11 @@ const silverDjPressKit: PressKitConfig = {
     ],
     itemLabel: "Références",
     items: [
+      {
+        name: "Official Partner DJ — Desperados Côte d'Ivoire 2026",
+        description: "via Key Agency",
+        logo: "/silver-dj/logos/collab-despe-key-agency.jpeg",
+      },
       "Desperados CI",
       "Heineken CI",
       "Martini",
@@ -380,7 +393,7 @@ const silverDjPressKit: PressKitConfig = {
       },
       {
         label: "WhatsApp",
-        value: "(+225) 01 01 53 51 74",
+        value: bookingPhone,
         href: bookingWhatsapp,
         icon: "whatsapp",
         external: true,
@@ -388,7 +401,7 @@ const silverDjPressKit: PressKitConfig = {
       {
         label: "Téléphone",
         value: bookingPhone,
-        href: "tel:+2250787879780",
+        href: "tel:+2250555111104",
         icon: "phone",
         external: false,
       },
