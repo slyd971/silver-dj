@@ -353,7 +353,6 @@ const silverDjPressKit: PressKitConfig = {
         description: "via Key Agency",
         logo: "/silver-dj/logos/collab-despe-key-agency.jpeg",
       },
-      "Desperados CI",
       "Heineken CI",
       "Martini",
       "Banque Africaine de Développement",
