@@ -49,22 +49,38 @@ export function BrandsSection({ brands }: BrandsSectionProps) {
 
         <div className="mt-5 grid items-stretch gap-3 md:mt-8 md:gap-4 xl:grid-cols-[1.15fr_0.85fr]">
           <div className="grid grid-cols-2 gap-2.5 md:gap-4">
-            {brands.items.map((brand) => (
+            {brands.items.map((brand) => {
+              const item = typeof brand === "string" ? { name: brand } : brand;
+
+              return (
               <div
-                key={brand}
+                key={item.name}
                 className="group flex min-h-[5.9rem] flex-col justify-between rounded-lg border border-white/10 bg-white/[0.015] p-2.5 backdrop-blur-sm transition hover:border-[rgb(var(--pk-accent-rgb)/0.4)] hover:bg-white/[0.03] hover:shadow-[0_0_30px_rgb(var(--pk-accent-rgb)/0.12)] sm:min-h-[6.6rem] md:rounded-[1.4rem] md:p-5"
               >
                 <div>
                   <div className="text-[7px] uppercase tracking-[0.14em] text-white/35 md:text-[9px] md:tracking-[0.28em]">
                     {brands.itemLabel}
                   </div>
+                  {item.logo ? (
+                    <img
+                      src={item.logo}
+                      alt={item.name}
+                      className="mt-3 max-h-16 w-full rounded-md bg-white object-contain p-2 md:mt-5 md:max-h-24 md:rounded-lg"
+                    />
+                  ) : null}
                   <div className="mt-3 text-[0.72rem] font-black uppercase leading-tight [overflow-wrap:anywhere] sm:text-sm md:mt-7 md:text-2xl">
-                    {brand}
+                    {item.name}
                   </div>
+                  {item.description ? (
+                    <p className="mt-2 text-[0.65rem] font-medium uppercase leading-snug tracking-[0.12em] text-white/45 md:text-xs">
+                      {item.description}
+                    </p>
+                  ) : null}
                 </div>
                 <div className="mt-3 h-px w-[60%] bg-[rgb(var(--pk-accent-rgb)/0.6)] transition group-hover:w-[80%] md:mt-4 md:w-[65%]" />
               </div>
-            ))}
+              );
+            })}
           </div>
 
           <div className="self-start rounded-lg border border-white/10 bg-[linear-gradient(180deg,rgba(60,5,8,0.2)_0%,rgba(255,255,255,0.02)_100%)] p-4 backdrop-blur-sm md:rounded-[1.4rem] md:p-6">

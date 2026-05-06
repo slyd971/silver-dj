@@ -178,7 +178,7 @@ export type PressKitConfig = {
     supportingText: string;
     categories: string[];
     itemLabel: string;
-    items: string[];
+    items: Array<{ name: string; description?: string; logo?: string } | string>;
     fit: {
       eyebrow: string;
       title: string;
