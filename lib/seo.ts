@@ -25,6 +25,7 @@ export function buildClientMetadata(
     ?.replace(/\/+$/, "")
     .split("/")
     .pop();
+  const faviconBasePath = client.seo.favicon?.replace(/\/[^/]+$/, "");
 
   return {
     metadataBase: new URL(`https://${getPrimaryHostname(client)}`),
@@ -43,6 +44,31 @@ export function buildClientMetadata(
     alternates: {
       canonical: canonicalUrl,
     },
+    ...(client.seo.favicon
+      ? {
+          icons: {
+            icon: [
+              { url: client.seo.favicon, sizes: "any" },
+              {
+                url: `${faviconBasePath}/favicon-192.png`,
+                type: "image/png",
+                sizes: "192x192",
+              },
+              {
+                url: `${faviconBasePath}/favicon-512.png`,
+                type: "image/png",
+                sizes: "512x512",
+              },
+            ],
+            apple: [
+              {
+                url: `${faviconBasePath}/apple-touch-icon.png`,
+                sizes: "180x180",
+              },
+            ],
+          },
+        }
+      : {}),
     robots: {
       index: true,
       follow: true,

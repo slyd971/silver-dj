@@ -588,6 +588,7 @@ export const silverDjClient: ClientConfig = {
       "booking DJ Côte d'Ivoire",
     ],
     ogImage: "/opengraph-image",
+    favicon: "/silver-dj/favicon/favicon.ico",
   },
   defaultTheme: "green",
   defaultVariant: "impact",
